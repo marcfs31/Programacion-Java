@@ -20,8 +20,8 @@ public class juego {
 		//Calcular tiempo tardado en responder
 		//Variables
 		Random rand = new Random();
-		String idioma,lang,op,resp_str,dificultad="",difficulty,exit="n",salir="n";
-		int num1,num2,num_op,resp=0,result,puntos=0;
+		String idioma,lang,op,resp_str,dificultad="",difficulty,exit="n",salir="n",salir2="no";
+		int num1,num2,num_op,resp=0,result,puntos=0,nivel=0;
 		long time_used=0;
 		long time_left=0;
 		long init_cont=0;
@@ -31,15 +31,18 @@ public class juego {
 		String ops[] = {"+","-","x"};
 		String ops_ex[] = {"+","-","x","%"};
 		do{
-			if(exit.equals("s")){
-				break;
-			}
+			idioma="";
 			//Selección de idioma
-			System.out.println("	    GENIUS MIND");
-			System.out.println("###################################");
-			
-			System.out.println("     Choose the game language: ");
-			System.out.print("English:1 || Spanish:2 || Catalan:3 || Exit:4");
+			System.out.println("                  _                       _           _ ");
+			System.out.println("                 (_)                     (_)         | |");
+            System.out.println("  __ _  ___ _ __  _ _   _ ___   _ __ ___  _ _ __   __| |");
+            System.out.println(" / _` |/ _ \\ '_ \\| | | | / __| | '_ ` _ \\| | '_ \\ / _` |");
+            System.out.println("| (_| |  __/ | | | | |_| \\__ \\ | | | | | | | | | | (_| |");
+            System.out.println(" \\__, |\\___|_| |_|_|\\__,_|___/ |_| |_| |_|_|_| |_|\\__,_|");
+            System.out.println("  __/ |                                                 ");
+            System.out.println(" |___/                                                  ");
+            System.out.println("               Choose the game language: ");
+			System.out.print("      English:1 || Spanish:2 || Catalan:3 || Exit:4");
 			System.out.println();
 			lang = reader.readLine();
 			switch(lang){
@@ -62,9 +65,35 @@ public class juego {
 			//Inglés
 			if(idioma.equals("English")){
 				do{
+					if (salir2.equals("yes")) {
+						salir2="no";
+						break;
+					}
+					
+					//Niveles
+					if (puntos>=25) {
+						nivel = 1;
+						System.out.println("Congratulations you passed to Level"+nivel);
+					}else if (puntos>=50) {
+						nivel = 2;
+						System.out.println("Congratulations you passed to Level"+nivel);
+					}else if (puntos>=75) {
+						nivel = 3;
+						System.out.println("Congratulations you passed to Level"+nivel);
+					}else if (puntos>=100) {
+						nivel = 4;
+						System.out.println("Congratulations you passed to Level"+nivel);
+					}else {
+						nivel = 0;
+						System.out.println("You are at Level "+nivel);
+					}
+					reader.readLine();
+					
+					Runtime.getRuntime().exec("clear");
+					
 					//Dificultad
 					System.out.println("     Choose the difficulty of the game: ");
-					System.out.print("Easy:1 || Normal:2 || Hard:3 || Extreme:4 || Exit:5");
+					System.out.print("Easy:1 || Normal:2 || Hard:3 || Extreme:4 || Go back:5");
 					System.out.println();
 					difficulty = reader.readLine();
 					switch(difficulty){
@@ -79,6 +108,11 @@ public class juego {
 						case "5": exit= "s";
 							break;
 						default: dificultad = "Easy";
+					}
+					
+					if(exit.equals("s")){
+						exit="n";
+						break;
 					}
 					Runtime.getRuntime().exec("clear");
 					
@@ -107,13 +141,22 @@ public class juego {
 							if(op.equals("+")){
 								result = num1+num2;
 							}else if(op.equals("-")){
-								result = num1-num2;
+								if (num1<num2) {
+									result = num2-num1; 
+								}else {
+									result = num1-num2;
+								}
 							}else{
 								result = num1*num2;
 							}
 							
 							//Cojer respuestas
-							System.out.println(num1+op+num2);
+							if (num1<num2) {
+								System.out.println(num2+op+num1);
+							}else {
+								System.out.println(num1+op+num2);
+							}
+							
 							System.out.print("Answer: ");
 							resp_str = reader.readLine();
 							if(StringUtils.isNumeric(resp_str)){
@@ -122,8 +165,6 @@ public class juego {
 								System.out.print("Answer: ");
 								resp_str = reader.readLine();
 							}
-							
-							//Limpiar pantalla
 							Runtime.getRuntime().exec("clear");
 							
 							//Sistema de puntos
@@ -183,7 +224,11 @@ public class juego {
 							if(op.equals("+")){
 								result = num1+num2;
 							}else if(op.equals("-")){
-								result = num1-num2;
+								if (num1<num2) {
+									result = num2-num1; 
+								}else {
+									result = num1-num2;
+								}
 							}else if(op.equals("*")){
 								result = num1*num2;
 							}else{
@@ -192,10 +237,19 @@ public class juego {
 							
 							
 							//Cojer respuestas
-							System.out.println(num1+op+num2);
+							if (num1<num2) {
+								System.out.println(num2+op+num1);
+							}else {
+								System.out.println(num1+op+num2);
+							}
 							System.out.print("Answer: ");
 							resp_str = reader.readLine(); 
-							resp = Integer.parseInt(resp_str);
+							if(StringUtils.isNumeric(resp_str)){
+								resp = Integer.parseInt(resp_str);
+							}else{
+								System.out.print("Answer: ");
+								resp_str = reader.readLine();
+							}
 							
 							Runtime.getRuntime().exec("clear");
 							
@@ -250,7 +304,11 @@ public class juego {
 							if(op.equals("+")){
 								result = num1+num2;
 							}else if(op.equals("-")){
-								result = num1-num2;
+								if (num1<num2) {
+									result = num2-num1; 
+								}else {
+									result = num1-num2;
+								}
 							}else if(op.equals("*")){
 								result = num1*num2;
 							}else{
@@ -259,10 +317,19 @@ public class juego {
 							
 							
 							//Cojer respuestas
-							System.out.println(num1+op+num2);
+							if (num1<num2) {
+								System.out.println(num2+op+num1);
+							}else {
+								System.out.println(num1+op+num2);
+							}
 							System.out.print("Answer: ");
 							resp_str = reader.readLine(); 
-							resp = Integer.parseInt(resp_str);
+							if(StringUtils.isNumeric(resp_str)){
+								resp = Integer.parseInt(resp_str);
+							}else{
+								System.out.print("Answer: ");
+								resp_str = reader.readLine();
+							}
 							
 							Runtime.getRuntime().exec("clear");
 							
@@ -317,7 +384,11 @@ public class juego {
 							if(op.equals("+")){
 								result = num1+num2;
 							}else if(op.equals("-")){
-								result = num1-num2;
+								if (num1<num2) {
+									result = num2-num1; 
+								}else {
+									result = num1-num2;
+								}
 							}else if(op.equals("*")){
 								result = num1*num2;
 							}else{
@@ -325,10 +396,19 @@ public class juego {
 							}
 							
 							//Cojer respuestas
-							System.out.println(num1+op+num2);
+							if (num1<num2) {
+								System.out.println(num2+op+num1);
+							}else {
+								System.out.println(num1+op+num2);
+							}
 							System.out.print("Answer: ");
 							resp_str = reader.readLine(); 
-							resp = Integer.parseInt(resp_str);
+							if(StringUtils.isNumeric(resp_str)){
+								resp = Integer.parseInt(resp_str);
+							}else{
+								System.out.print("Answer: ");
+								resp_str = reader.readLine();
+							}
 							
 							Runtime.getRuntime().exec("clear");
 							
@@ -355,15 +435,49 @@ public class juego {
 						reader.readLine();
 						dificultad = ""; 
 						Runtime.getRuntime().exec("clear");
+					}
+					
+					System.out.print("Do you want to change the language? yes/no");
+					salir2 = reader.readLine();
+					if (salir2.equals("yes")) {
+						break;
+					}else {
+						continue;
 					}
 				}while(exit != "s");
 				
 			//Catalán
 			}else if(idioma.equals("Catalan")){
 				do{
+					if (salir2.equals("yes")) {
+						salir2="no";
+						break;
+					}
+					
+					//Niveles
+					if (puntos>25) {
+						nivel = 1;
+						System.out.println("Felicitats has passat al nivell "+nivel);
+					}else if (puntos>=50) {
+						nivel = 2;
+						System.out.println("Felicitats has passat al nivell "+nivel);
+					}else if (puntos>=75) {
+						nivel = 3;
+						System.out.println("Felicitats has passat al nivell "+nivel);
+					}else if (puntos>=100) {
+						nivel = 4;
+						System.out.println("Felicitats has passat al nivell "+nivel);
+					}else {
+						nivel = 0;
+						System.out.println("Estas al nivell "+nivel);
+					}
+					reader.readLine();
+					
+					Runtime.getRuntime().exec("clear");
+					
 					//Dificultad
 					System.out.println("     Escull la dificultat del joc: ");
-					System.out.print("Fàcil:1 || Normal:2 || Difil:3 || Extrema:4 || Sortir:5");
+					System.out.print("Fàcil:1 || Normal:2 || Difil:3 || Extrema:4 || Enrrere:5");
 					System.out.println();
 					difficulty = reader.readLine();
 					switch(difficulty){
@@ -378,6 +492,11 @@ public class juego {
 						case "5": exit= "s";
 							break;
 						default: dificultad = "Easy";
+					}
+					
+					if(exit.equals("s")){
+						exit="n";
+						break;
 					}
 					
 					Runtime.getRuntime().exec("clear");
@@ -407,16 +526,29 @@ public class juego {
 							if(op.equals("+")){
 								result = num1+num2;
 							}else if(op.equals("-")){
-								result = num1-num2;
+								if (num1<num2) {
+									result = num2-num1; 
+								}else {
+									result = num1-num2;
+								}
 							}else{
 								result = num1*num2;
 							}
 							
 							//Cojer respuestas
-							System.out.println(num1+op+num2);
+							if (num1<num2) {
+								System.out.println(num2+op+num1);
+							}else {
+								System.out.println(num1+op+num2);
+							}
 							System.out.print("Resposta: ");
 							resp_str = reader.readLine(); 
-							resp = Integer.parseInt(resp_str);
+							if(StringUtils.isNumeric(resp_str)){
+								resp = Integer.parseInt(resp_str);
+							}else{
+								System.out.print("Answer: ");
+								resp_str = reader.readLine();
+							}
 							
 							Runtime.getRuntime().exec("clear");
 							
@@ -476,7 +608,11 @@ public class juego {
 							if(op.equals("+")){
 								result = num1+num2;
 							}else if(op.equals("-")){
-								result = num1-num2;
+								if (num1<num2) {
+									result = num2-num1; 
+								}else {
+									result = num1-num2;
+								}
 							}else if(op.equals("*")){
 								result = num1*num2;
 							}else{
@@ -485,10 +621,19 @@ public class juego {
 							
 							
 							//Cojer respuestas
-							System.out.println(num1+op+num2);
+							if (num1<num2) {
+								System.out.println(num2+op+num1);
+							}else {
+								System.out.println(num1+op+num2);
+							}
 							System.out.print("Resposta: ");
 							resp_str = reader.readLine(); 
-							resp = Integer.parseInt(resp_str);
+							if(StringUtils.isNumeric(resp_str)){
+								resp = Integer.parseInt(resp_str);
+							}else{
+								System.out.print("Answer: ");
+								resp_str = reader.readLine();
+							}
 							
 							Runtime.getRuntime().exec("clear");
 							
@@ -543,7 +688,11 @@ public class juego {
 							if(op.equals("+")){
 								result = num1+num2;
 							}else if(op.equals("-")){
-								result = num1-num2;
+								if (num1<num2) {
+									result = num2-num1; 
+								}else {
+									result = num1-num2;
+								}
 							}else if(op.equals("*")){
 								result = num1*num2;
 							}else{
@@ -552,10 +701,19 @@ public class juego {
 							
 							
 							//Cojer respuestas
-							System.out.println(num1+op+num2);
+							if (num1<num2) {
+								System.out.println(num2+op+num1);
+							}else {
+								System.out.println(num1+op+num2);
+							}
 							System.out.print("Resposta: ");
 							resp_str = reader.readLine(); 
-							resp = Integer.parseInt(resp_str);
+							if(StringUtils.isNumeric(resp_str)){
+								resp = Integer.parseInt(resp_str);
+							}else{
+								System.out.print("Answer: ");
+								resp_str = reader.readLine();
+							}
 							
 							Runtime.getRuntime().exec("clear");
 							
@@ -610,7 +768,11 @@ public class juego {
 							if(op.equals("+")){
 								result = num1+num2;
 							}else if(op.equals("-")){
-								result = num1-num2;
+								if (num1<num2) {
+									result = num2-num1; 
+								}else {
+									result = num1-num2;
+								}
 							}else if(op.equals("*")){
 								result = num1*num2;
 							}else{
@@ -618,10 +780,19 @@ public class juego {
 							}
 							
 							//Cojer respuestas
-							System.out.println(num1+op+num2);
+							if (num1<num2) {
+								System.out.println(num2+op+num1);
+							}else {
+								System.out.println(num1+op+num2);
+							}
 							System.out.print("Resposta: ");
 							resp_str = reader.readLine(); 
-							resp = Integer.parseInt(resp_str);
+							if(StringUtils.isNumeric(resp_str)){
+								resp = Integer.parseInt(resp_str);
+							}else{
+								System.out.print("Answer: ");
+								resp_str = reader.readLine();
+							}
 							
 							Runtime.getRuntime().exec("clear");
 							
@@ -648,33 +819,72 @@ public class juego {
 						reader.readLine();
 						dificultad = ""; 
 						Runtime.getRuntime().exec("clear");
+					}
+					
+					System.out.print("Vols canviar la dificultat del joc? si/no");
+					salir2 = reader.readLine();
+					if (salir2.equals("si")) {
+						salir2="yes";
+						break;
+					}else {
+						continue;
 					}
 				}while(exit != "s");
 			//Español
 			}else if(idioma.equals("Spanish")){
-							do{
-					//Dificultad
-					System.out.println("     Escull la dificultat del joc: ");
-					System.out.print("Fàcil:1 || Normal:2 || Difil:3 || Extrema:4 || Salir:5");
-					System.out.println();
-					difficulty = reader.readLine();
-					switch(difficulty){
-						case "1": dificultad ="Easy";
-							break;
-						case "2": dificultad ="Normal";
-							break;
-						case "3": dificultad ="Hard";
-							break;
-						case "4": dificultad = "Extreme";
-							break;
-						case "5": exit= "s";
-							break;
-						default: dificultad = "Easy";
+				do{
+					if (salir2.equals("yes")) {
+						salir2="no";
+						break;
 					}
-					
+					//Niveles
+					if (puntos>=25) {
+						nivel = 1;
+						System.out.println("Felicidades has pasado al nivel "+nivel);
+					}else if (puntos>=50) {
+						nivel = 2;
+						System.out.println("Felicidades has pasado al nivel "+nivel);
+					}else if (puntos>=75) {
+						nivel = 3;
+						System.out.println("Felicidades has pasado al nivel "+nivel);
+					}else if (puntos>=100) {
+						nivel = 4;
+						System.out.println("Felicidades has pasado al nivel "+nivel);
+					}else {
+						nivel = 0;
+						System.out.println("Estas en el nivel "+nivel);
+					}
+					reader.readLine();
+						
 					Runtime.getRuntime().exec("clear");
-					
-					//Fácil
+				
+				//Dificultad
+				System.out.println("     Escoje la dificultad del juego: ");
+				System.out.print("Fácil:1 || Normal:2 || Difil:3 || Extrema:4 || Atrás:5");
+				System.out.println();
+				difficulty = reader.readLine();
+				switch(difficulty){
+					case "1": dificultad ="Easy";
+						break;
+					case "2": dificultad ="Normal";
+						break;
+					case "3": dificultad ="Hard";
+						break;
+					case "4": dificultad = "Extreme";
+						break;
+					case "5": exit= "s";
+						break;
+					default: dificultad = "Easy";
+				}
+				
+				if(exit.equals("s")){
+					exit="n";
+					break;
+				}
+				
+				Runtime.getRuntime().exec("clear");
+				
+				//Fácil
 					if(dificultad.equals("Easy")){
 						init_cont = System.currentTimeMillis();
 						
@@ -699,16 +909,29 @@ public class juego {
 							if(op.equals("+")){
 								result = num1+num2;
 							}else if(op.equals("-")){
-								result = num1-num2;
+								if (num1<num2) {
+									result = num2-num1; 
+								}else {
+									result = num1-num2;
+								}
 							}else{
 								result = num1*num2;
 							}
 							
 							//Cojer respuestas
-							System.out.println(num1+op+num2);
+							if (num1<num2) {
+								System.out.println(num2+op+num1);
+							}else {
+								System.out.println(num1+op+num2);
+							}
 							System.out.print("Respuesta: ");
 							resp_str = reader.readLine(); 
-							resp = Integer.parseInt(resp_str);
+							if(StringUtils.isNumeric(resp_str)){
+								resp = Integer.parseInt(resp_str);
+							}else{
+								System.out.print("Answer: ");
+								resp_str = reader.readLine();
+							}
 							
 							Runtime.getRuntime().exec("clear");
 							
@@ -768,7 +991,11 @@ public class juego {
 							if(op.equals("+")){
 								result = num1+num2;
 							}else if(op.equals("-")){
-								result = num1-num2;
+								if (num1<num2) {
+									result = num2-num1; 
+								}else {
+									result = num1-num2;
+								}
 							}else if(op.equals("*")){
 								result = num1*num2;
 							}else{
@@ -777,10 +1004,19 @@ public class juego {
 							
 							
 							//Cojer respuestas
-							System.out.println(num1+op+num2);
+							if (num1<num2) {
+								System.out.println(num2+op+num1);
+							}else {
+								System.out.println(num1+op+num2);
+							}
 							System.out.print("Respuesta: ");
 							resp_str = reader.readLine(); 
-							resp = Integer.parseInt(resp_str);
+							if(StringUtils.isNumeric(resp_str)){
+								resp = Integer.parseInt(resp_str);
+							}else{
+								System.out.print("Answer: ");
+								resp_str = reader.readLine();
+							}
 							
 							Runtime.getRuntime().exec("clear");
 							
@@ -835,7 +1071,11 @@ public class juego {
 							if(op.equals("+")){
 								result = num1+num2;
 							}else if(op.equals("-")){
-								result = num1-num2;
+								if (num1<num2) {
+									result = num2-num1; 
+								}else {
+									result = num1-num2;
+								}
 							}else if(op.equals("*")){
 								result = num1*num2;
 							}else{
@@ -844,10 +1084,19 @@ public class juego {
 							
 							
 							//Cojer respuestas
-							System.out.println(num1+op+num2);
+							if (num1<num2) {
+								System.out.println(num2+op+num1);
+							}else {
+								System.out.println(num1+op+num2);
+							}
 							System.out.print("Respuesta: ");
 							resp_str = reader.readLine(); 
-							resp = Integer.parseInt(resp_str);
+							if(StringUtils.isNumeric(resp_str)){
+								resp = Integer.parseInt(resp_str);
+							}else{
+								System.out.print("Answer: ");
+								resp_str = reader.readLine();
+							}
 							
 							Runtime.getRuntime().exec("clear");
 							
@@ -902,7 +1151,11 @@ public class juego {
 							if(op.equals("+")){
 								result = num1+num2;
 							}else if(op.equals("-")){
-								result = num1-num2;
+								if (num1<num2) {
+									result = num2-num1; 
+								}else {
+									result = num1-num2;
+								}
 							}else if(op.equals("*")){
 								result = num1*num2;
 							}else{
@@ -910,10 +1163,19 @@ public class juego {
 							}
 							
 							//Cojer respuestas
-							System.out.println(num1+op+num2);
+							if (num1<num2) {
+								System.out.println(num2+op+num1);
+							}else {
+								System.out.println(num1+op+num2);
+							}
 							System.out.print("Respuesta: ");
 							resp_str = reader.readLine();
-							resp = Integer.parseInt(resp_str);
+							if(StringUtils.isNumeric(resp_str)){
+								resp = Integer.parseInt(resp_str);
+							}else{
+								System.out.print("Answer: ");
+								resp_str = reader.readLine();
+							}
 							
 							Runtime.getRuntime().exec("clear");
 							
@@ -940,6 +1202,14 @@ public class juego {
 						reader.readLine();
 						dificultad = ""; 
 						Runtime.getRuntime().exec("clear");
+					}
+					System.out.print("Quieres cambiar el idioma del juego? si/no");
+					salir2 = reader.readLine();
+					if (salir2.equals("si")) {
+						salir2="yes";
+						break;
+					}else {
+						continue;
 					}
 				}while(exit != "s");
 			}
